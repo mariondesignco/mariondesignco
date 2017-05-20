@@ -1,0 +1,45 @@
+{#
+# Layout template
+# ---------------
+#
+# This template defines your site’s global layout. It can be
+# “extended” by other templates to fill in the gaps.
+#
+# See Twig’s Template Inheritance documentation for more details:
+# http://twig.sensiolabs.org/doc/templates.html#template-inheritance
+#}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
+	<link rel="home" href="{{ siteUrl }}" />
+
+
+	<link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="resources/css/styles.css">
+	<link rel="stylesheet" href="resources/fancybox-3.0/dist/jquery.fancybox.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+</head>
+
+<body>
+	<!-- Includes the navigation element -->
+	{% include "_includes/_navigation.html "%}
+		<main id="content" role="main">
+			{% block content %}
+				<p>If you see me, you haven’t set your <code>{% verbatim %}{% block content %}…{% endblock %}{% endverbatim %}</code> yet.</p>
+				<p>See Twig’s <a href="http://twig.sensiolabs.org/doc/templates.html#template-inheritance">Template Inheritance</a> documentation for an explanation.</p>
+			{% endblock %}
+		</main>
+
+		<!-- Includes the footer -->
+		{% include "_includes/_footer.html" %}
+
+	{% includeJsFile "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" %}
+	{% includeJsFile "../resources/bootstrap/js/bootstrap.min.js" %}
+</body>
+
+</html>

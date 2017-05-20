@@ -1,0 +1,288 @@
+{#
+ # Homepage template
+ # ---------------
+ #
+ # When this template gets loaded, it will be because someone has accessed
+ # http://yoursite.com/ (without any URI). Craft checks to see if you have
+ # a Single section set to be the Homepage (as you do, by default), and
+ # loads the section’s Template (this file). A special ‘entry’ variable
+ # will already be set for you, assigned to the Homepage entry.
+ #
+ # It's worth noting that even if you didn't have a Homepage Single section,
+ # as long as this template remains at craft/templates/index.html, it
+ # would still be the one to get loaded when accessing http://yoursite.com/,
+ # albeit without an ‘entry’ variable already set for you.
+ #
+ # See this page for more details on how Craft routes requests:
+ # http://craftcms.com/docs/routing
+ #}
+
+{% extends "_layout" %}
+
+{% block content %}
+
+{% macro monthConvert(meetblock) %}
+  {% switch meetblock.date.month %}
+    {% case 1 %}
+      <span class="month">JANUARY</span>
+    {% case 2 %}
+      <span class="month">FEBRUARY</span>
+    {% case 3 %}
+      <span class="month">MARCH</span>
+    {% case 4 %}
+      <span class="month">APRIL</span>
+    {% case 5 %}
+      <span class="month">MAY</span>
+    {% case 6 %}
+      <span class="month">JUNE</span>
+    {% case 7 %}
+      <span class="month">JULY</span>
+    {% case 8 %}
+      <span class="month">AUGUST</span>
+    {% case 9 %}
+      <span class="month">SEPTEMBER</span>
+    {% case 10 %}
+      <span class="month">OCTOBER</span>
+    {% case 11 %}
+      <span class="month">NOVEMBER</span>
+    {% case 12 %}
+      <span class="month">DECEMBER</span>
+  {% endswitch %}
+{% endmacro %}
+
+
+  <div class="homepage">
+
+    <!-- Homepage Landing Screen -->
+        <div class="landing-page">
+          <div class="landing-background">
+            <div class="image-container">
+            </div>
+            <div class="text">
+              <div class="welcome">
+                WELCOME TO
+              </div>
+              <div class="city-name">
+                <img class="logo-com-champions" src="/resources/assets/vectors/logo-com-champions.svg" alt="Marion. City of Champions">
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <!-- Message from the Mayor -->
+    {% for entry in craft.entries.section("welcome") %}
+    <div class="row">
+      <div class="col-sm-12 col-md-7">
+        <div class="welcome-message">
+          <div class="mayor-div">
+          </div>
+          <div class="mayor-headshot">
+          </div>
+          <div class="welcome-from">
+          {{entry.welcomeFrom}}
+          </div>
+          <div class="welcome-greeting">
+          {{entry.welcomeGreeting}}
+          </div>
+          <div class="welcome-text">
+          {{entry.welcomeText}}
+          </div>
+          <div class="learn-more">
+              <button type="button" class="marion-button">LEARN MORE</button>
+          </div>
+        </div>
+      </div>
+
+    {% endfor %}
+
+    <!-- News Feed -->
+
+    <div class="col-sm-12 col-md-5">
+        <div class="news-feed">
+          <div class="title">
+            <h2><img class="news-img" src="/resources/assets/vectors/news.svg" alt=""> NEWS </h2>
+          </div>
+          <hr>
+          {% for entry in craft.entries.section("news").limit(3) %}
+          <div class="news-block">
+            <div class="news-type">
+              <h3>{{entry.newsType}}</h3>
+            </div>
+            <div class="news-title">
+              <h2>{{entry.newsTitle}}</h2>
+            </div>
+          </div>
+          <hr>
+          {% endfor %}
+          <div class="view-all-news">
+              <button type="button" class="marion-button news-button">VIEW ALL</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="row">
+      <div class="col-sm-12 col-md-7">
+        <div class="quick-links">
+          <h2> <img class="arrow-angle" src="/resources/assets/vectors/arrow-angle.svg" alt=""> QUICK LINKS</h2>
+        </div>
+        <div class="quick-links-buttons">
+          <div class="row">
+            {% for entry in craft.entries.section("quickLinks") %}
+            <div class="col-sm-12 col-md-6 col-lg-4">
+              <div class="quick-link-button">
+                <button type="button" class="marion-button quick-links-button">{{ entry.quickLinkTitle}}</button>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Events -->
+      <div class="col-sm-12 col-md-5">
+          <div class="events-feed">
+            <div class="title">
+              <h2><img class="events-img" src="/resources/assets/vectors/calendar.svg" alt=""> EVENTS</h2>
+            </div>
+            <hr>
+            {% for entry in craft.entries.section("event").order('postDate').limit(3) %}
+            <div class="events-block">
+              <div class="events-type">
+                <h3>{{entry.eventDate}}</h3>
+              </div>
+              <div class="events-title">
+                <h2>{{entry.eventTitle}}</h2>
+              </div>
+            </div>
+            <hr>
+            {% endfor %}
+            <div class="view-all-events">
+                <button type="button" class="marion-button event-button">VIEW ALL</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- Champion of the Month -->
+    <div class="row">
+      {% for entry in craft.entries.section("championOfTheMonth").order('postDate').limit(1) %}
+      <div class="col-sm-12 col-md-7">
+        <div class="cotm-container">
+
+          <div class="cotm-text">
+            <div class="cotm-name">
+              {{entry.cotmName}}
+            </div>
+            <div class="cotm-link">
+              <a href="#" class="cotm-address">Champion of the Month <img class="cotm-right-arrow" src="/resources/assets/vectors/arrow-right.svg" alt=""></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+      <!-- Share their Story -->
+      <div class="col-sm-12 col-md-5">
+        <div class="share-story">
+          <div class="city-of-champions">
+            <img class="city-of-champions-img" src="/resources/assets/vectors/logo-com-champions-v2.svg" alt="">
+          </div>
+          <div class="share-text">
+            Know a Champion in our community?
+          </div>
+          <div class="share-button">
+            <button type="button" class="marion-button story-button">SHARE THEIR STORY</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Homepage Video -->
+    <div class="row">
+      {% for entry in craft.entries.section("video") %}
+      <div class="col-sm-12">
+        <div class="video">
+          <div class="col-sm-12 col-md-8">
+            <div class="video-title">
+            {{entry.videoTitle}}
+            </div>
+            <div class="video-description">
+            {{entry.videoDescription}}
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <img class="Play" src="/resources/assets/vectors/play.svg" alt="">
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Spotlights -->
+    <div class="row">
+      {% for entry in craft.entries.section("spotlight").limit(2) %}
+      <div class="col-sm-12 col-md-6">
+        <div class="spotlight">
+          <div class="spotlight-title">
+            {{ entry.spotlightTitle }}
+          </div>
+          <div class="spotlight-type">
+          {{ entry.spotlightType }} <img class="Play" src="/resources/assets/vectors/arrow-right.svg" alt="">
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="row">
+      {% for entry in craft.entries.section("indiana").limit(1) %}
+      <div class="col-sm-12">
+        <div class="location-container">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="location-text">
+                <div class="our-location">
+                  OUR LOCATION
+                </div>
+                <div class="location-name">
+                  {{ entry.location }}
+                </div>
+                <!-- <div class="location-description">
+                </div> -->
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div class="state-image">
+                  <img class="map-image" src="/resources/assets/vectors/map.svg" alt="Indiana">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+    <div class="special-acknowledgment">
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="collaboration-link">
+            Website Created in Collaboration with: <br>
+            <a>Read More About the Process</a>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <div class="iwu-logo">
+            <img class="iwu-img" src="/resources/assets/vectors/logo-iwu.svg" alt="Indiana Wesleyan University">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <div class="mdc-logo">
+            <img class="mdc-img" src="/resources/assets/vectors/logo-mdco.svg" alt="Marion Design Co">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
